@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Portfolio | Filipe Picinin</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+</head>
+<body>
+
+    <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <div class="cloud-menu-overlay" id="cloud-menu">
+        <div class="cloud-backdrop" id="cloud-backdrop"></div>
+        <div class="cloud-body">
+            <div class="cloud-wave-layer layer-3">
+                <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#e5e7eb" fill-opacity="0.5" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,48C840,43,960,53,1080,64C1200,75,1320,85,1380,90.7L1440,96L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0C0,0,0,0,0,0Z"></path></svg>
+            </div>
+            <div class="cloud-wave-layer layer-2">
+                <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#f3f4f6" fill-opacity="0.8" d="M0,64L60,58.7C120,53,240,43,360,48C480,53,600,75,720,74.7C840,75,960,53,1080,42.7C1200,32,1320,32,1380,32L1440,32L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0C0,0,0,0,0,0Z"></path></svg>
+            </div>
+            
+            <div class="cloud-body-content">
+                <div class="cloud-container">
+                    <nav class="menu-navigation">
+                        <a href="#sobre" class="menu-link">Sobre</a>
+                        <a href="#tecnologias" class="menu-link">Techs</a>
+                        <a href="#projetos" class="menu-link">Projetos</a>
+                        <a href="#contato" class="menu-link">Contato</a>
+                    </nav>
+                    
+                    <div class="menu-vertical-divider"></div>
+                    
+                    <div class="menu-settings">
+                        <h4>Aparência</h4>
+                        <button class="theme-toggle-btn" id="theme-toggle">
+                            <i class="fas fa-moon"></i> <span>Modo Escuro</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="static-logo-container">
+    <a href="#" class="logo">
+        &lt;Picinin<span>.dev</span>/&gt;
+    </a>
+    
+</div>
+
+    <section class="hero">
+    <div class="hero-container container">
+        <div class="hero-content" data-aos="fade-right">
+            <span class="subtitle">Disponível para novos projetos</span>
+            <h1>
+                Criando experiências digitais
+                <span class="gradient-text">memoráveis</span>
+            </h1>
+            <p>Estudante de Engenharia de Software especializado.</p> <div class="hero-btns">
+                <a href="#projetos" class="btn-primary">Ver Projetos</a>
+                <a href="#contato" class="btn-secondary">Vamos conversar</a>
+            </div>
+        </div>
+
+        <div class="hero-image-wrapper" data-aos="fade-left">
+            <div class="rainbow-tracks-container"></div>
+            
+            <div class="avatar-holder">
+                <img src="./89d6185d-3dec-41c4-96f8-de91d8ab7e7f.png" class="hero-avatar" alt="Sua Foto Profissional">
+            </div>
+            
+            <button id="config-btn" class="config-gear-btn" title="Ajustar Efeito Visual">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </div>
+</section>
+
+    <section id="sobre" class="container" data-aos="fade-up">
+        <div class="about-grid">
+            <div class="about-text">
+                <h2>Sobre Mim</h2>
+                <p>
+                    Olá! Sou um desenvolvedor apaixonado por tecnologia e por resolver problemas complexos através de código limpo e eficiente. Minha jornada no desenvolvimento me permite transformar ideias abstratas em sistemas escaláveis e designs interativos.
+                </p>
+            </div>
+            <div class="about-stats">
+                <div class="stat-card">
+                    <h3>+3</h3>
+                    <p>Anos de curso tecnico</p>
+                </div>
+                <div class="stat-card">
+                    <h3>+5</h3>
+                    <p>Projetos Entregues</p>
+                </div>
+                <div class="stat-card">
+                    <h3>100%</h3>
+                    <p>Foco em Qualidade</p>
+                </div>
+                <div class="stat-card">
+                    <h3>+5</h3>
+                    <p>Clientes Satisfeitos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tecnologias" class="tech-section">
+        <div class="container" data-aos="fade-up">
+            <h2 class="center-title">Minha Stack Tecnológica</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML5</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS3</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-react"></i>
+                    <span>React.js</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-node-js"></i>
+                    <span>Node.js</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-git-alt"></i>
+                    <span>Git & GitHub</span>
+                </div>
+                <div class="tech-card">
+                    <i class="fab fa-python"></i>
+                    <span>Python</span>
+                </div>
+                <div class="tech-card">
+                   <i class="fa-brands fa-java"></i>
+                    <span>Java</span>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="projetos" class="container" data-aos="fade-up">
+        <h2 class="center-title">Projetos em Destaque</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <img id="img1" src="./Captura de tela 2026-07-07 194013.png" alt="">
+                    <div class="overlay">
+                        <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        <a href="#" target="_blank"><i class="fab fa-github"></i> Código</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-category">E-Commerce</span>
+                    <h3>Plataforma de Vendas Digital</h3>
+                    <p>Um e-commerce completo com carrinho de compras interativo, integração de pagamentos e painel administrativo responsivo.</p>
+                    <div class="project-tags">
+                        <span>React</span>
+                        <span>Node.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img id="img1" src="./Captura de tela 2026-07-07 194013.png" alt="">
+                    <div class="overlay">
+                        <a href="https://picininf.github.io/clifi-studios/" target="_blank"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        <a href="https://github.com/picininf/clifi-studios" target="_blank"><i class="fab fa-github"></i> Código</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-category">E-Commerce</span>
+                    <h3>Site de Agendamentos na área Audio visual</h3>
+                    <p>Aplicação web para controle financeiro e de agendamentos. Contendo integração automatica com planilha e integração automatica com Supabase.</p>
+                    <div class="project-tags">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="contact-section">
+        <div class="container text-center" data-aos="zoom-in">
+
+            <h2>Vamos criar algo incrível juntos?</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 20px auto 40px auto;">
+                Estou sempre aberto a oportunidades de trabalho, projetos freelancers ou apenas para trocar uma ideia sobre desenvolvimento web.
+            </p>
+            <a href="mailto:filipepicinin7@gmail.com" class="btn-primary contact-btn">
+                <i class="fas fa-envelope"></i> Enviar um E-mail
+            </a>
+
+            <div class="social-links">
+                <a href="https://github.com/picininf" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/filipe-picinin-80ba8b337/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+
+            <p class="copy">&copy; 2026 Filipe Picinin. Todos os direitos reservados.</p>
+        </div>
+    </section>
+
+    <div id="config-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>
+                <i class="fas fa-sliders-h"></i>
+                Ajustar Efeito Visual
+            </h3>
+            <div class="control-group">
+                <label>Espessura: <span id="val-width">14px</span></label>
+                <input type="range" id="input-width" min="4" max="30" value="14">
+            </div>
+            <div class="control-group">
+                <label>Radius: <span id="val-radius">20px</span></label>
+                <input type="range" id="input-radius" min="0" max="30" value="20">
+            </div>
+            <div class="control-group">
+                <label>Quantidade: <span id="val-quantity">24</span></label>
+                <input type="range" id="input-quantity" min="10" max="50" value="24">
+            </div>
+            <button id="close-modal-btn" class="btn-primary">Aplicar e Fechar</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
