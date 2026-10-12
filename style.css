@@ -223,7 +223,7 @@ body {
     gap: 20px;
 }
 
-.menu-settings h4 {
+.menu-settings-title {
     color: #8b949e;
     text-transform: uppercase;
     font-size: 0.75rem;
@@ -389,6 +389,7 @@ body.light-mode .theme-toggle-btn {
 
 .hero-image-wrapper:hover .config-gear-btn { opacity: 1; transform: scale(1); }
 .config-gear-btn:hover { transform: scale(1.1) rotate(90deg); }
+.config-gear-btn:focus-visible { opacity: 1; transform: scale(1); }
 
 /* ==========================================
    5. CONFIGURAÇÃO DO MODAL DE SELEÇÃO
@@ -432,6 +433,7 @@ body.light-mode .theme-toggle-btn {
     border-bottom: 1px solid rgba(255,255,255,0.06);
     font-size: 1rem;
     cursor: move;
+    touch-action: none;
     user-select: none;
     color: #ffffff;
 }
@@ -486,6 +488,7 @@ body.light-mode .theme-toggle-btn {
 }
 
 .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+body.light-mode .btn-secondary:hover { background: rgba(0,0,0,0.04); }
 
 /* ==========================================
    7. SEÇÕES SECUNDÁRIAS (SOBRE, TECHS, CARDS)
@@ -530,6 +533,7 @@ body.light-mode .theme-toggle-btn {
 body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
 
 .tech-grid {
+    list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 20px;
@@ -552,9 +556,6 @@ body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
 }
-#img1{
-    width: 100%;
-}
 .project-card {
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -564,7 +565,15 @@ body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
 }
 
 .project-card:hover { transform: translateY(-8px); }
-.project-image { height: 220px; background: linear-gradient(45deg, #1e293b, #334155); position: relative; }
+.project-card { display: flex; flex-direction: column; }
+.project-image { height: 220px; background: linear-gradient(45deg, #1e293b, #334155); position: relative; overflow: hidden; }
+.project-image img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 0.4s ease; }
+.project-card:hover .project-image img { transform: scale(1.04); }
+.project-image--placeholder {
+    display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.35), transparent 60%), linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+}
+.project-image--placeholder i { font-size: 4rem; color: #c4b5fd; opacity: 0.9; }
 
 .overlay {
     position: absolute;
@@ -574,7 +583,8 @@ body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
     opacity: 0; transition: opacity 0.3s;
 }
 
-.project-card:hover .overlay { opacity: 1; }
+.project-card:hover .overlay,
+.project-card:focus-within .overlay { opacity: 1; }
 
 .overlay a {
     color: white; text-decoration: none; padding: 10px 18px; border-radius: 5px;
@@ -583,7 +593,7 @@ body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
 }
 
 .overlay a:hover { background: var(--accent-color); border-color: var(--accent-color); }
-.project-info { padding: 25px; }
+.project-info { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
 .project-category { color: var(--accent-color); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
 .project-info h3 { margin: 10px 0; font-size: 1.4rem; }
 .project-info p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
@@ -595,6 +605,22 @@ body.light-mode .tech-section { background-color: rgba(0, 0, 0, 0.02); }
 }
 
 body.light-mode .project-tags span { background: rgba(0,0,0,0.05); }
+
+.project-link {
+    margin-top: 20px;
+    align-self: flex-start;
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.project-link:hover { text-decoration: underline; }
+
+.projects-more { text-align: center; margin-top: 50px; }
+.projects-more .btn-secondary { display: inline-flex; align-items: center; gap: 10px; }
 
 /* ==========================================
    8. NOVO CARD DE CONTATO FLUTUANTE (SUPER VISÍVEL)
@@ -636,7 +662,7 @@ body.light-mode .floating-contact-card {
     margin-bottom: 12px;
 }
 
-.floating-contact-header h4 {
+.floating-contact-title {
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -725,6 +751,8 @@ body.light-mode .floating-contact-card {
     color: var(--accent-color);
     transform: translateY(-3px);
 }
+
+.contact-lead { color: var(--text-muted); max-width: 600px; margin: 20px auto 40px auto; line-height: 1.6; }
 
 .copy {
     margin-top: 40px;
@@ -870,7 +898,7 @@ section,
 
 .cert-content h3 {
     font-size: 1.2rem;
-    color: #fff;
+    color: var(--text-main);
     margin-bottom: 12px;
     line-height: 1.4;
 }
@@ -888,21 +916,20 @@ section,
     flex-wrap: wrap;
     gap: 8px;
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-color);
 }
 
 .cert-tag {
     background: rgba(255, 255, 255, 0.05);
-    color: #cbd5e1;
+    color: var(--text-muted);
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 6px;
     font-weight: 500;
 }
 
-.cert-link:hover {
-    color: var(--accent-color);
-}
+body.light-mode .cert-tag { background: rgba(0, 0, 0, 0.05); }
+body.light-mode .cert-badge { background: rgba(255, 255, 255, 0.9); border-color: rgba(0, 0, 0, 0.08); }
 
 /* Responsividade para celulares */
 @media (max-width: 900px) {
@@ -961,4 +988,88 @@ section,
     .menu-link { font-size: 1.5rem; }
     .menu-vertical-divider { width: 40px; height: 1px; background: rgba(0,0,0,0.1); }
     .menu-settings { flex-direction: column; gap: 10px; }
+}
+/* ==========================================
+   10. ACESSIBILIDADE E AJUSTES FINAIS
+   ========================================== */
+img { max-width: 100%; }
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translate(-50%, -150%);
+    background: var(--primary-gradient);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 10001;
+    transition: transform 0.2s ease;
+}
+.skip-link:focus { transform: translate(-50%, 0); }
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #a855f7;
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.menu-toggle:focus-visible,
+.config-gear-btn:focus-visible { border-radius: 50%; }
+
+/* Dispositivos sem hover (toque): botões do projeto sempre visíveis */
+@media (hover: none) {
+    .overlay {
+        opacity: 1;
+        top: auto;
+        bottom: 0;
+        height: auto;
+        padding: 14px;
+        background: linear-gradient(to top, rgba(11, 15, 25, 0.95), rgba(11, 15, 25, 0));
+        justify-content: flex-end;
+    }
+    .config-gear-btn { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+    /* espaço para o card de contato fixo não cobrir o rodapé */
+    body { padding-bottom: 80px; }
+    .projects-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+    .certificates-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+    .hero h1 { font-size: 2.6rem; }
+    .center-title, .about-text h2 { font-size: 2rem; }
+    .hero-btns { margin: 0 auto; }
+}
+
+@media (max-width: 480px) {
+    .container { padding-left: 16px; padding-right: 16px; }
+    .hero h1 { font-size: 2.1rem; }
+    .center-title, .about-text h2 { font-size: 1.7rem; margin-bottom: 36px; }
+    .hero p { font-size: 1.05rem; }
+    .hero-image-wrapper { height: 340px; }
+    .hero-avatar { width: 100px; height: 100px; }
+    .about-stats { gap: 12px; }
+    .stat-card { padding: 22px 12px; }
+    .stat-card h3 { font-size: 2rem; }
+    .tech-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+    .tech-card { padding: 18px 10px; }
+    .floating-contact-card { left: 12px; right: 12px; bottom: 12px; }
+    .floating-contact-body { gap: 12px; }
+    .static-logo-container { top: 26px; left: 16px; }
+    .logo { font-size: 1.1rem; }
+    .menu-toggle { top: 16px; right: 16px; width: 50px; height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    [data-aos] { opacity: 1 !important; transform: none !important; }
 }

@@ -1,10 +1,19 @@
 // ==========================================
 // AOS ANIMAÇÕES
 // ==========================================
-AOS.init({
-    once: true,
-    mirror: false
-});
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (window.AOS) {
+    AOS.init({
+        once: true,
+        mirror: false,
+        disable: prefersReducedMotion
+    });
+}
+
+// Ano atual no rodapé
+const anoEl = document.getElementById('ano');
+if (anoEl) anoEl.textContent = new Date().getFullYear();
 
 // ==========================================
 // SELEÇÃO DE ELEMENTOS DO DOM
@@ -46,10 +55,13 @@ let config = {
     radius: 230         // Raio do Arco-Íris no Desktop
 };
 
-// Se for mobile, diminui o raio do arco dinamicamente
-if (window.innerWidth <= 900) {
-    config.radius = 150;
+// Raio do arco de acordo com a largura da tela
+function getArcRadius() {
+    if (window.innerWidth <= 480) return 115;
+    if (window.innerWidth <= 900) return 150;
+    return 230;
 }
+config.radius = getArcRadius();
 // Repassa o valor do raio como variável CSS para que a foto o acompanhe na ponta
 document.documentElement.style.setProperty('--arc-radius', `${config.radius}px`);
 
@@ -120,17 +132,35 @@ function updateTrackRotations() {
     });
 }
 
-window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    updateTrackRotations();
-});
+// Agrupa as atualizações em um quadro de animação (evita recalcular a cada pixel do mouse)
+let rotationFrame = null;
+function scheduleTrackRotations() {
+    if (rotationFrame) return;
+    rotationFrame = requestAnimationFrame(() => {
+        rotationFrame = null;
+        updateTrackRotations();
+    });
+}
+
+if (!prefersReducedMotion) {
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        scheduleTrackRotations();
+    }, { passive: true });
+}
 
 // Reajuste em mudanças de tela (Responsividade)
+let resizeTimer = null;
 window.addEventListener('resize', () => {
-    config.radius = window.innerWidth <= 900 ? 150 : 230;
-    generateRainbow();
-    updateTrackRotations();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        const newRadius = getArcRadius();
+        if (newRadius === config.radius) return;
+        config.radius = newRadius;
+        generateRainbow();
+        updateTrackRotations();
+    }, 150);
 });
 
 // Ouvintes dos Sliders do Modal
@@ -160,8 +190,11 @@ inputQuantity.addEventListener('input', (e) => {
 // ==========================================
 function toggleMenu() {
     const isActive = cloudMenu.classList.toggle('active');
-    menuToggle.classList.toggle('active');
+    menuToggle.classList.toggle('active', isActive);
+    menuToggle.setAttribute('aria-expanded', String(isActive));
+    menuToggle.setAttribute('aria-label', isActive ? 'Fechar menu' : 'Abrir menu');
     document.body.style.overflow = isActive ? 'hidden' : '';
+    if (isActive && menuLinks[0]) setTimeout(() => menuLinks[0].focus(), 300);
 }
 
 menuToggle.addEventListener('click', toggleMenu);
@@ -175,7 +208,8 @@ menuLinks.forEach(link => {
 // ==========================================
 // PERSISTÊNCIA E ALTERNÂNCIA DE TEMA
 // ==========================================
-const savedTheme = localStorage.getItem('portfolio-theme');
+let savedTheme = null;
+try { savedTheme = localStorage.getItem('portfolio-theme'); } catch (e) { /* navegação privada */ }
 if (savedTheme === 'light') {
     document.body.classList.add('light-mode');
     updateThemeUI(true);
@@ -183,7 +217,7 @@ if (savedTheme === 'light') {
 
 themeToggleBtn.addEventListener('click', () => {
     const isLightNow = document.body.classList.toggle('light-mode');
-    localStorage.setItem('portfolio-theme', isLightNow ? 'light' : 'dark');
+    try { localStorage.setItem('portfolio-theme', isLightNow ? 'light' : 'dark'); } catch (e) { /* ignora */ }
     updateThemeUI(isLightNow);
     
     // Corrige bordas do avatar instantaneamente na troca de tema
@@ -192,6 +226,9 @@ themeToggleBtn.addEventListener('click', () => {
 });
 
 function updateThemeUI(isLight) {
+    themeToggleBtn.setAttribute('aria-pressed', String(isLight));
+    const themeColor = document.querySelector('meta[name="theme-color"]');
+    if (themeColor) themeColor.setAttribute('content', isLight ? '#f9fafb' : '#0b0f19');
     if (isLight) {
         themeIcon.className = 'fas fa-sun';
         themeText.innerText = 'Modo Claro';
@@ -204,21 +241,37 @@ function updateThemeUI(isLight) {
 // ==========================================
 // COMPORTAMENTO DO MODAL CONFIGURADOR (DRAG)
 // ==========================================
-configBtn.addEventListener('click', () => {
+function openModal() {
     configModal.classList.add('active');
+    configModal.setAttribute('aria-hidden', 'false');
     const left = (window.innerWidth - modalContent.offsetWidth) / 2;
     const top = (window.innerHeight - modalContent.offsetHeight) / 2;
-    modalContent.style.left = `${left}px`;
-    modalContent.style.top = `${top}px`;
-});
+    modalContent.style.left = `${Math.max(0, left)}px`;
+    modalContent.style.top = `${Math.max(0, top)}px`;
+    inputWidth.focus();
+}
 
-closeModalBtn.addEventListener('click', () => { configModal.classList.remove('active'); });
-configModal.addEventListener('click', (e) => { if (e.target === configModal) configModal.classList.remove('active'); });
+function closeModal() {
+    configModal.classList.remove('active');
+    configModal.setAttribute('aria-hidden', 'true');
+    configBtn.focus();
+}
+
+configBtn.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+configModal.addEventListener('click', (e) => { if (e.target === configModal) closeModal(); });
+
+// Tecla Esc fecha o modal ou o menu
+document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (configModal.classList.contains('active')) closeModal();
+    else if (cloudMenu.classList.contains('active')) { toggleMenu(); menuToggle.focus(); }
+});
 
 let isDragging = false;
 let startX, startY, initialLeft, initialTop;
 
-modalHeader.addEventListener('mousedown', (e) => {
+modalHeader.addEventListener('pointerdown', (e) => {
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -228,7 +281,7 @@ modalHeader.addEventListener('mousedown', (e) => {
     e.preventDefault();
 });
 
-window.addEventListener('mousemove', (e) => {
+window.addEventListener('pointermove', (e) => {
     if (!isDragging) return;
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
@@ -246,7 +299,7 @@ window.addEventListener('mousemove', (e) => {
     modalContent.style.top = `${newTop}px`;
 });
 
-window.addEventListener('mouseup', () => {
+window.addEventListener('pointerup', () => {
     isDragging = false;
     modalHeader.style.cursor = 'move';
-});
+});
