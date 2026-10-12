@@ -354,9 +354,11 @@ body.light-mode .theme-toggle-btn {
 .hero-avatar {
     width: 170px;
     height: 170px;
+    max-width: none; /* não deixa a regra global de img achatar o avatar */
     object-fit: cover;
     border-radius: 50%;
-    
+    display: block;
+
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s;
 }
